@@ -1,0 +1,88 @@
+#! /usr/bin/python
+import subprocess
+import toml
+import sys
+import os
+
+ABS_PATH = os.path.dirname(__file__)
+CONFIG_FILE = 'config_aliases.toml'
+ALL_KEYWORD = 'all'
+DEFAULT_COMMAND = 'pokemon-colorscripts --no-title -n'
+EXECUTABLE = '/bin/bash'
+
+
+def load_config(config_file):
+    with open(ABS_PATH + '/' + config_file, "r") as file:
+        config = toml.load(file)
+    return config
+
+
+def f(c, p):
+    if len(p) == 0 or not isinstance(c, dict):
+        return ''
+    else:
+        if p[0] not in c: 
+            return ' '.join(p)
+        elif not isinstance(c[p[0]], dict):
+            return c[p[0]] + (' ' + ' '.join(p[1:]) if len(p) > 1 else '')
+        else:
+            return c[p[0]][ALL_KEYWORD] + (' ' + f(c[p[0]], p[1:]) if len(p) > 1 else '')
+        
+
+def tests():
+    c = {'asusctl': {'all': 'asusctl', 'perf': {'all': 'profile -P', 'high': {'all': 'Performance', 'very': 'VERY'}, 'down': 'Quiet'}, 'lumiere': '-k high'}}
+    tests = [
+        ('asusctl test', 'asusctl test'),
+        ('asusctl lumiere', 'asusctl -k high'),
+        ('asusctl lumiere test', 'asusctl -k high test'),
+        ('asusctl perf', 'asusctl profile -P'),
+        ('asusctl perf test', 'asusctl profile -P test'),
+        ('asusctl perf high', 'asusctl profile -P Performance'),
+        ('asusctl perf high test', 'asusctl profile -P Performance test'),
+        ('asusctl perf high very', 'asusctl profile -P Performance VERY'),
+        ('asusctl perf high very test', 'asusctl profile -P Performance VERY test'),
+    ]
+    errors = 0
+    for x, y in tests:
+        p = x.split(' ') 
+        if f(c, p) != y:
+            print(f"[FAIL] '{f(c, p)}' != '{y}'")
+            errors += 1
+    print("[SUCCESS]" if errors == 0 else f"[FAILURE] {(len(tests) - errors) / len(tests)} tests passed.")
+    return errors == 0
+
+
+if __name__ == "__main__":
+    flags = {'v': False, 'e': False, 't': False}
+    config = load_config(CONFIG_FILE)
+
+    if '-v' in sys.argv:
+        sys.argv.remove('-v')
+        flags['v'] = True
+    if '-e' in sys.argv:
+        sys.argv.remove('-e')
+        flags['e'] = True
+    if '-t' in sys.argv:
+        sys.argv.remove('-t')
+        flags['t'] = True
+
+    if flags['t']:
+        exit(tests())
+
+    prompt = sys.argv[1:]
+    aliases = {vv: k for k, v in config['prefix'].items() for vv in v}
+    if prompt[0] in aliases:
+        prompt[0] = aliases[prompt[0]]
+    command = f(config['commands'], prompt)
+
+    if flags['v']:
+        print(command)
+    else:
+        try:
+            subprocess.run(command, shell=True, executable=EXECUTABLE, check=True, stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError as e:
+            if flags['e']:
+                print(f"Erreur de commande : {e}")
+            else:
+                subprocess.run(DEFAULT_COMMAND + command, shell=True, executable=EXECUTABLE)
+

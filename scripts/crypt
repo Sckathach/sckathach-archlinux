@@ -1,0 +1,62 @@
+#!/usr/bin/python
+import os
+import getpass
+import argparse
+from subprocess import call
+
+
+def encrypt_file(filepath, password, iterations=10000):
+    encrypted_filepath = filepath + ".enc"
+    print(f"Encrypting {filepath}...")
+    openssl_cmd = f"openssl enc -aes-256-cbc -salt -iter {iterations} -in '{filepath}' -out '{encrypted_filepath}' -k '{password}'"
+    if call(openssl_cmd, shell=True) == 0:  # Check if encryption was successful
+        print(f"Encrypted: {encrypted_filepath}")
+        os.remove(filepath)  # Remove the original file
+        print(f"Deleted original file: {filepath}")
+
+
+def decrypt_file(filepath, password, iterations=10000):
+    if not filepath.endswith('.enc'):
+        print(f"Skipping non-encrypted file: {filepath}")
+        return
+    decrypted_filepath = filepath[:-4]  # Remove .enc extension
+    print(f"Decrypting {filepath}...")
+    openssl_cmd = f"openssl enc -aes-256-cbc -d -salt -iter {iterations} -in '{filepath}' -out '{decrypted_filepath}' -k '{password}'"
+    if call(openssl_cmd, shell=True) == 0:  # Check if decryption was successful
+        print(f"Decrypted: {decrypted_filepath}")
+        os.remove(filepath)  # Remove the encrypted file
+        print(f"Deleted encrypted file: {filepath}")
+
+
+def process_directory(directory, password, mode, iterations=10000):
+    if not os.path.isdir(directory):
+        print(f"The directory {directory} does not exist.")
+        return
+
+    for filename in os.listdir(directory):
+        filepath = os.path.join(directory, filename)
+        if os.path.isdir(filepath):
+            continue
+        if mode == 'encrypt':
+            encrypt_file(filepath, password, iterations)
+        elif mode == 'decrypt':
+            decrypt_file(filepath, password, iterations)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Encrypt or decrypt files in a directory.")
+    parser.add_argument("directory", help="Directory containing files to process.")
+    parser.add_argument("-p", "--password", help="Encryption/decryption password. If not provided, you'll be prompted.")
+    parser.add_argument("-e", "--encrypt", help="Encrypt all files in the directory.", action="store_true")
+    parser.add_argument("-d", "--decrypt", help="Decrypt all files in the directory.", action="store_true")
+    args = parser.parse_args()
+
+    directory = args.directory
+    password = args.password if args.password else getpass.getpass("Enter the encryption/decryption password: ")
+
+    if args.encrypt == args.decrypt:  # Neither or both flags are set
+        print("Please specify either -e to encrypt or -d to decrypt.")
+    else:
+        mode = 'encrypt' if args.encrypt else 'decrypt'
+        process_directory(directory, password, mode)
+

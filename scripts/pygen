@@ -1,0 +1,39 @@
+#!/usr/bin/python
+import argparse
+import random
+import time
+
+gen_len = 32
+special_characters = "#@%&-_,;:!.?=+*\/^{}()[]~"
+nombres = "0123456789"
+lower_case = "abcdefghijklmnopqrstuvwxyz"
+upper_case = lower_case.upper()
+gen, char_list = "", ""
+
+random.seed(time.time())
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-l', '--length', help="Length of the generated password",
+                    required=False, default=gen_len)
+parser.add_argument('-c', '--character', help="Char type: number lower geohash simple wide all",
+                    required=False, default="all")
+args = parser.parse_args()
+
+if args.character == "number":
+    char_list = nombres
+elif args.character == "lower":
+    char_list = lower_case
+elif args.character == "geohash":
+    char_list = lower_case * 2 + nombres
+elif args.character == "simple":
+    char_list = lower_case + upper_case
+elif args.character == "wide":
+    char_list = nombres + lower_case + upper_case
+else:
+    char_list = nombres + lower_case + upper_case + special_characters
+
+char_list = list(char_list)
+
+for i in range(int(args.length)):
+    gen += char_list[random.randint(0, len(char_list) - 1)]
+print(gen)
