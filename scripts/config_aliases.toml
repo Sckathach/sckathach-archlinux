@@ -21,8 +21,8 @@ all = "docker"
 boom = "sudo docker system prune -a && sudo docker volume prune -a"
 
 [commands.filter]
-all = "redshift"
-jaune = "-P -O 2500"
+all = "gammastep"
+jaune = "-P -O 2900"
 rouge = "-P -O 1000"
 bleu = "-P -O 4000"
 

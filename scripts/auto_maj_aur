@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 # yes o | sudo pacman -Syyu
-aur_directory="${HOME}/Repos/"
+aur_directory="${HOME}/repos/aur/"
 i=1
 for x in ${aur_directory}* ; do
 	echo $x
