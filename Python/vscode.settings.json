@@ -1,0 +1,34 @@
+{
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Monokai Pro (Filter Ristretto)",
+  "editor.fontFamily": "'Fira Code iScript', 'Fira Code'",
+  "editor.minimap.enabled": false,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "workbench.productIconTheme": "icons-carbon",
+  "terminal.integrated.fontFamily": "'Noto Sans Mono'",
+  "github.copilot.enable": {
+    "quarto": false,
+    "*": false
+  },
+  "workbench.statusBar.visible": false,
+  "window.menuBarVisibility": "toggle",
+  "editor.defaultFormatter": "charliermarsh.ruff",
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.ruff": "always",
+    "source.organizeImports.ruff": "always",
+    "source.fixAll": "always"
+  },
+  "ruff.exclude": [],
+  "ruff.lint.enable": true,
+  "vscode-neovim.neovimClean": true,
+  "jupyter.askForKernelRestart": false,
+  "mypy-type-checker.showNotifications": "always",
+  "notebook.defaultFormatter": "charliermarsh.ruff",
+  "explorer.confirmDelete": false,
+  "workbench.startupEditor": "none",
+  "jupyter.notebookFileRoot": "${workspaceFolder}"
+}
