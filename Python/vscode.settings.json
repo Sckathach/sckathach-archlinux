@@ -1,34 +1,43 @@
 {
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.colorTheme": "Monokai Pro (Filter Ristretto)",
-  "editor.fontFamily": "'Fira Code iScript', 'Fira Code'",
-  "editor.minimap.enabled": false,
+  "workbench.startupEditor": "none",
+  "workbench.colorTheme": "Monokai Pro Light",
+  "workbench.productIconTheme": "icons-carbon",
+  "workbench.statusBar.visible": false,
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
-  "workbench.productIconTheme": "icons-carbon",
   "terminal.integrated.fontFamily": "'Noto Sans Mono'",
   "github.copilot.enable": {
     "quarto": false,
     "*": false
   },
-  "workbench.statusBar.visible": false,
   "window.menuBarVisibility": "toggle",
+  "editor.fontFamily": "'Fira Code iScript', 'Fira Code'",
+  "editor.minimap.enabled": false,
   "editor.defaultFormatter": "charliermarsh.ruff",
   "editor.formatOnSave": true,
-  "notebook.formatOnSave.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.ruff": "always",
     "source.organizeImports.ruff": "always",
     "source.fixAll": "always"
   },
-  "ruff.exclude": [],
+  "ruff.exclude": [
+    "*.ipynb"
+  ],
   "ruff.lint.enable": true,
-  "vscode-neovim.neovimClean": true,
-  "jupyter.askForKernelRestart": false,
   "mypy-type-checker.showNotifications": "always",
-  "notebook.defaultFormatter": "charliermarsh.ruff",
   "explorer.confirmDelete": false,
-  "workbench.startupEditor": "none",
-  "jupyter.notebookFileRoot": "${workspaceFolder}"
+  "explorer.confirmDragAndDrop": false,
+  "redhat.telemetry.enabled": false,
+  "files.associations": {
+    "*.qmd": "markdown"
+  },
+  "jupyter.interactiveWindow.notebookRepl": true,
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
+  "jupyter.askForKernelRestart": false,
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "jupyter.logging.level": "trace",
+  "jupyter.themeMatplotlibPlots": true,
+  "notebook.formatOnSave.enabled": true
 }
