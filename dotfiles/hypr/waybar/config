@@ -20,6 +20,7 @@
     "margin-right": 0, 	
     "fixed-center": true, 
     "ipc": true, 		
+    "output": ["eDP-1"],
  
     "modules-left": ["custom/menu", "cpu", "memory", "disk", "custom/pomodoro"],
     "modules-center": ["hyprland/workspaces", "mpd", "tray"],
