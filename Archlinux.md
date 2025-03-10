@@ -36,7 +36,7 @@ mount /dev/sda2 /mnt
 ## Install
 ```shell
 pacman -S baobab discord bat obsidian redshift mattermost-desktop jdk-openjdk jupyter-notebook docker debugedit thunderbird fzf zotero cargo ttf-jetbrains-mono-nerd typescript-language-server
-yay -S freetube jetbrains-toolbox asusctl messenger-nativefier whatsdesk-bin syncthingtray noto-fonts-cjk ttf-inria-font pokemon-colorscripts-git
+yay -S freetube jetbrains-toolbox asusctl messenger-nativefier whatsdesk-bin syncthingtray noto-fonts-cjk ttf-inria-sans pokemon-colorscripts-git
 systemctl enable docker 
 
 pacman -S xsel rlwrap # Required for cht.sh
